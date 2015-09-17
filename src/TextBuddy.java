@@ -197,7 +197,7 @@ public class TextBuddy {
 
 			int index = sc.nextInt();
 			index = index-1;
-			if (index>=text.size()){
+			if (index > 0 && index>=text.size()){
 				messageDisplay(ERROR_BAD_ARGUMENT, "index out of range");
 				sc.nextLine();
 				//readCommandUntilExit();
