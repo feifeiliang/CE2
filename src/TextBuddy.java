@@ -1,5 +1,3 @@
-
-
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -7,6 +5,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
+import java.util.Collections;
 
 /**
  * TextBuddy is a program that user can  store, retrieve and delete message.
@@ -51,6 +50,7 @@ public class TextBuddy {
 	private static final String MSG_CLEAR = "all content deleted from %s";
 	private static final String MSG_DELETE = "deleted from %s: \"%s\"";
 	private static final String MSG_EMPTY = "%s is empty";
+	private static final String MSG_SEARCH_NOT_FOUND = "No results fonud in %s"; 
 
 
 	// Commands
@@ -59,10 +59,12 @@ public class TextBuddy {
 	private static final String DISPLAY_TEXT = "display";
 	private static final String DELETE_TEXT = "delete";
 	private static final String CLEAR_TEXT = "clear";
+	private static final String SEARCH_TEXT = "search";
 	private static final String EXIT_PROGRAM = "exit";
 
 	// store all texts from the user
 	private static ArrayList <String> text; 
+	private static ArrayList <String> searchText;
 
 	// file contain texts are stored on disc
 	private static File file;
@@ -146,6 +148,12 @@ public class TextBuddy {
 				case EXIT_PROGRAM : 
 					break;
 
+				case SEARCH_TEXT :
+				    search();
+				    displaySearchResult();
+				    readCommand(); 
+					break;
+
 				default: 
 					// if the user any command that cannot be identified (e.g "jump")
 					messageDisplay(ERROR_BAD_ARGUMENT, "Please enter a valid command");
@@ -174,7 +182,13 @@ public class TextBuddy {
 		String message = sc.nextLine().trim();
 		text.add(message);
 		messageDisplay(MSG_ADD, file.getName(), message);
+		sortText();
 
+	}
+
+	// This method is used to sort the arraylist alphabetically
+	private static void sortText(){
+		Collections.sort(text);
 	}
 
 	// Delete command performed
@@ -237,6 +251,39 @@ public class TextBuddy {
 		} else {
 			text.clear();
 			messageDisplay(MSG_CLEAR, file.getName());
+		}
+	}
+
+	// Search for a word in the file
+	private static void search(){
+		String word = sc.nextLine().trim();
+		searchText = new ArrayList <String> ();
+		int size = text.size();
+		if (size == 0){
+			messageDisplay(MSG_EMPTY, file.getName());
+		} else {
+			int i; 
+			for (i = 0; i < size; i++){
+				if (text.get(i).contains(word)){
+					searchText.add(text.get(i));
+				}
+			}
+		}
+	}
+
+	// Display the search result 
+	private static void displaySearchResult (){
+	
+		int size = searchText.size();
+		if (size == 0) {
+			messageDisplay(MSG_SEARCH_NOT_FOUND, file.getName());
+		} else {
+			int num=1;
+			String label;
+			for (int i = 0; i < size; i++){
+				label = String.valueOf(num++)+".";
+				System.out.println(label + " " + searchText.get(i));
+			}
 		}
 	}
 
