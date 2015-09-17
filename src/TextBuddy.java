@@ -41,11 +41,11 @@ import java.util.Collections;
 public class TextBuddy {
 
 	// error message
-	private static final String ERROR_EMPTY = "%s is empty";
+	// private static final String ERROR_EMPTY = "%s is empty";
 	private static final String ERROR_BAD_ARGUMENT = "Bad argument \n %s";
 
 	// message show
-	private static final String WELCOME_MESSAGE = "Welcome to TextBuddy. %s is ready for use";
+	private static final String MSG_WELCOME = "Welcome to TextBuddy. %s is ready for use";
 	private static final String MSG_ADD = "added to %s: \"%s\"";
 	private static final String MSG_CLEAR = "all content deleted from %s";
 	private static final String MSG_DELETE = "deleted from %s: \"%s\"";
@@ -84,7 +84,7 @@ public class TextBuddy {
 	}
 
 	// This method is to 
-	// The user supporse to enter java program fileName
+	// The user suppose to enter java program fileName
 	private static void checkArguments(String[] args){
 		if (args.length==0){
 			messageDisplay(ERROR_BAD_ARGUMENT, "Proper Usuage is: Java program filename");
@@ -113,7 +113,7 @@ public class TextBuddy {
 	}
 
 	private static void printWelcomeMessage(){
-		messageDisplay(WELCOME_MESSAGE,file.getName());
+		messageDisplay(MSG_WELCOME,file.getName());
 	}
 
 	// This method is use to save the command that the user enter
@@ -144,14 +144,14 @@ public class TextBuddy {
 					clearTexts();
 					readCommand();
 					continue;
+					
+				case SEARCH_TEXT :
+				     search();
+				     displaySearchResult();
+				     readCommand(); 
+					 break;
 
 				case EXIT_PROGRAM : 
-					break;
-
-				case SEARCH_TEXT :
-				    search();
-				    displaySearchResult();
-				    readCommand(); 
 					break;
 
 				default: 
